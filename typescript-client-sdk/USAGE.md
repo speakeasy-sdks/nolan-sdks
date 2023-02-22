@@ -1,7 +1,7 @@
 <!-- Start SDK Example Usage -->
 ```typescript
-import { SDK, withSecurity} from "";
-import { CancelRunRequest, CancelRunResponse } from "/src/sdk/models/operations";
+import { SDK, withSecurity} from "openapi";
+import { CancelRunRequest, CancelRunResponse } from "openapi/src/sdk/models/operations";
 import { AxiosError } from "axios";
 
 const sdk = new SDK(withSecurity(
