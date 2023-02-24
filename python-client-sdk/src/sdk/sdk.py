@@ -17,8 +17,8 @@ class SDK:
     _security: shared.Security
     _server_url: str = SERVERS[0]
     _language: str = "python"
-    _sdk_version: str = "0.2.1"
-    _gen_version: str = "1.4.8"
+    _sdk_version: str = "0.3.0"
+    _gen_version: str = "1.5.0"
 
     def __init__(self) -> None:
         self._client = requests.Session()
@@ -168,14 +168,14 @@ class SDK:
         url = utils.generate_url(base_url, "/project/{projectId}/run", request.path_params)
         
         headers = {}
-        req_content_type, data, json, files = utils.serialize_request_body(request)
+        req_content_type, data, form = utils.serialize_request_body(request)
         if req_content_type != "multipart/form-data" and req_content_type != "multipart/mixed":
             headers["content-type"] = req_content_type
         headers["user-agent"] = f"speakeasy-sdk/{self._language} {self._sdk_version} {self._gen_version}"
         
         client = self._security_client
         
-        r = client.request("POST", url, data=data, json=json, files=files, headers=headers)
+        r = client.request("POST", url, data=data, files=form, headers=headers)
         content_type = r.headers.get("Content-Type")
 
         res = operations.RunProjectResponse(status_code=r.status_code, content_type=content_type)
