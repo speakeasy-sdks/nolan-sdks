@@ -1,13 +1,17 @@
 import { SpeakeasyBase, SpeakeasyMetadata } from "../../../internal/utils";
+import { Expose } from "class-transformer";
 
 
 export class TsoaErrorResponsePayload extends SpeakeasyBase {
-  @SpeakeasyMetadata({ data: "json, name=details" })
+  @SpeakeasyMetadata()
+  @Expose({ name: "details" })
   details?: string;
 
-  @SpeakeasyMetadata({ data: "json, name=reason" })
+  @SpeakeasyMetadata()
+  @Expose({ name: "reason" })
   reason: string;
 
-  @SpeakeasyMetadata({ data: "json, name=traceId" })
+  @SpeakeasyMetadata()
+  @Expose({ name: "traceId" })
   traceId: string;
 }

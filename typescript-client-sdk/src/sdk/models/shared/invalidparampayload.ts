@@ -1,14 +1,19 @@
 import { SpeakeasyBase, SpeakeasyMetadata } from "../../../internal/utils";
 import { InvalidParam } from "./invalidparam";
+import { Expose, Type } from "class-transformer";
 
 
 export class InvalidParamPayload extends SpeakeasyBase {
-  @SpeakeasyMetadata({ data: "json, name=invalid", elemType: InvalidParam })
+  @SpeakeasyMetadata({ elemType: InvalidParam })
+  @Expose({ name: "invalid" })
+  @Type(() => InvalidParam)
   invalid: InvalidParam[];
 
-  @SpeakeasyMetadata({ data: "json, name=notFound" })
+  @SpeakeasyMetadata()
+  @Expose({ name: "notFound" })
   notFound: string[];
 
-  @SpeakeasyMetadata({ data: "json, name=traceId" })
+  @SpeakeasyMetadata()
+  @Expose({ name: "traceId" })
   traceId: string;
 }

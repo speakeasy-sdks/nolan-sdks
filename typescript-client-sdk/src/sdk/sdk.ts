@@ -1,7 +1,8 @@
 import * as utils from "../internal/utils";
 import * as operations from "./models/operations";
-import { Security } from "./models/shared";
-import axios, { AxiosInstance, AxiosRequestConfig, AxiosResponse, ParamsSerializerOptions } from "axios";
+import * as shared from "./models/shared";
+import axios, { AxiosInstance, AxiosRequestConfig, AxiosResponse } from "axios";
+import { plainToInstance } from "class-transformer";
 
 export const ServerList = [
 	"https://app.hex.tech/api/v1",
@@ -12,7 +13,7 @@ export const ServerList = [
 export type SDKProps = {
   defaultClient?: AxiosInstance;
 
-  security?: Security;
+  security?: shared.Security;
 
   serverUrl?: string;
 }
@@ -24,17 +25,17 @@ export class SDK {
   public _securityClient: AxiosInstance;
   public _serverURL: string;
   private _language = "typescript";
-  private _sdkVersion = "0.3.1";
-  private _genVersion = "1.5.3";
+  private _sdkVersion = "0.3.2";
+  private _genVersion = "1.5.4";
 
   constructor(props: SDKProps) {
     this._serverURL = props.serverUrl ?? ServerList[0];
 
     this._defaultClient = props.defaultClient ?? axios.create({ baseURL: this._serverURL });
     if (props.security) {
-      let security: Security = props.security;
+      let security: shared.Security = props.security;
       if (!(props.security instanceof utils.SpeakeasyBase))
-        security = new Security(props.security);
+        security = new shared.Security(props.security);
       this._securityClient = utils.createSecurityClient(
         this._defaultClient,
         security
@@ -80,17 +81,29 @@ export class SDK {
             break;
           case httpRes?.status == 400:
             if (utils.matchContentType(contentType, `application/json`)) {
-                res.tsoaErrorResponsePayload = httpRes?.data;
+              res.tsoaErrorResponsePayload = plainToInstance(
+                shared.TsoaErrorResponsePayload,
+                httpRes?.data as shared.TsoaErrorResponsePayload,
+                { excludeExtraneousValues: true }
+              );
             }
             break;
           case httpRes?.status == 403:
             if (utils.matchContentType(contentType, `application/json`)) {
-                res.tsoaErrorResponsePayload = httpRes?.data;
+              res.tsoaErrorResponsePayload = plainToInstance(
+                shared.TsoaErrorResponsePayload,
+                httpRes?.data as shared.TsoaErrorResponsePayload,
+                { excludeExtraneousValues: true }
+              );
             }
             break;
           case httpRes?.status == 422:
             if (utils.matchContentType(contentType, `application/json`)) {
-                res.tsoaErrorResponsePayload = httpRes?.data;
+              res.tsoaErrorResponsePayload = plainToInstance(
+                shared.TsoaErrorResponsePayload,
+                httpRes?.data as shared.TsoaErrorResponsePayload,
+                { excludeExtraneousValues: true }
+              );
             }
             break;
         }
@@ -116,21 +129,14 @@ export class SDK {
     const client: AxiosInstance = this._securityClient!;
     
     const headers = {...config?.headers};
-    const qpSerializer: ParamsSerializerOptions = utils.getQueryParamSerializer(req.queryParams);
-
-    const requestConfig: AxiosRequestConfig = {
-      ...config,
-      params: req.queryParams,
-      paramsSerializer: qpSerializer,
-    };
-    
+    const queryParams: string = utils.serializeQueryParams(req.queryParams);
     headers["user-agent"] = `speakeasy-sdk/${this._language} ${this._sdkVersion} ${this._genVersion}`;
     
     const r = client.request({
-      url: url,
+      url: url + queryParams,
       method: "get",
       headers: headers,
-      ...requestConfig,
+      ...config,
     });
     
     return r.then((httpRes: AxiosResponse) => {
@@ -141,22 +147,38 @@ export class SDK {
         switch (true) {
           case httpRes?.status == 200:
             if (utils.matchContentType(contentType, `application/json`)) {
-                res.projectRunsResponsePayload = httpRes?.data;
+              res.projectRunsResponsePayload = plainToInstance(
+                shared.ProjectRunsResponsePayload,
+                httpRes?.data as shared.ProjectRunsResponsePayload,
+                { excludeExtraneousValues: true }
+              );
             }
             break;
           case httpRes?.status == 400:
             if (utils.matchContentType(contentType, `application/json`)) {
-                res.tsoaErrorResponsePayload = httpRes?.data;
+              res.tsoaErrorResponsePayload = plainToInstance(
+                shared.TsoaErrorResponsePayload,
+                httpRes?.data as shared.TsoaErrorResponsePayload,
+                { excludeExtraneousValues: true }
+              );
             }
             break;
           case httpRes?.status == 403:
             if (utils.matchContentType(contentType, `application/json`)) {
-                res.tsoaErrorResponsePayload = httpRes?.data;
+              res.tsoaErrorResponsePayload = plainToInstance(
+                shared.TsoaErrorResponsePayload,
+                httpRes?.data as shared.TsoaErrorResponsePayload,
+                { excludeExtraneousValues: true }
+              );
             }
             break;
           case httpRes?.status == 422:
             if (utils.matchContentType(contentType, `application/json`)) {
-                res.tsoaErrorResponsePayload = httpRes?.data;
+              res.tsoaErrorResponsePayload = plainToInstance(
+                shared.TsoaErrorResponsePayload,
+                httpRes?.data as shared.TsoaErrorResponsePayload,
+                { excludeExtraneousValues: true }
+              );
             }
             break;
         }
@@ -199,22 +221,38 @@ export class SDK {
         switch (true) {
           case httpRes?.status == 200:
             if (utils.matchContentType(contentType, `application/json`)) {
-                res.projectStatusResponsePayload = httpRes?.data;
+              res.projectStatusResponsePayload = plainToInstance(
+                shared.ProjectStatusResponsePayload,
+                httpRes?.data as shared.ProjectStatusResponsePayload,
+                { excludeExtraneousValues: true }
+              );
             }
             break;
           case httpRes?.status == 400:
             if (utils.matchContentType(contentType, `application/json`)) {
-                res.tsoaErrorResponsePayload = httpRes?.data;
+              res.tsoaErrorResponsePayload = plainToInstance(
+                shared.TsoaErrorResponsePayload,
+                httpRes?.data as shared.TsoaErrorResponsePayload,
+                { excludeExtraneousValues: true }
+              );
             }
             break;
           case httpRes?.status == 403:
             if (utils.matchContentType(contentType, `application/json`)) {
-                res.tsoaErrorResponsePayload = httpRes?.data;
+              res.tsoaErrorResponsePayload = plainToInstance(
+                shared.TsoaErrorResponsePayload,
+                httpRes?.data as shared.TsoaErrorResponsePayload,
+                { excludeExtraneousValues: true }
+              );
             }
             break;
           case httpRes?.status == 422:
             if (utils.matchContentType(contentType, `application/json`)) {
-                res.tsoaErrorResponsePayload = httpRes?.data;
+              res.tsoaErrorResponsePayload = plainToInstance(
+                shared.TsoaErrorResponsePayload,
+                httpRes?.data as shared.TsoaErrorResponsePayload,
+                { excludeExtraneousValues: true }
+              );
             }
             break;
         }
@@ -268,27 +306,47 @@ export class SDK {
         switch (true) {
           case httpRes?.status == 201:
             if (utils.matchContentType(contentType, `application/json`)) {
-                res.projectRunResponsePayload = httpRes?.data;
+              res.projectRunResponsePayload = plainToInstance(
+                shared.ProjectRunResponsePayload,
+                httpRes?.data as shared.ProjectRunResponsePayload,
+                { excludeExtraneousValues: true }
+              );
             }
             break;
           case httpRes?.status == 400:
             if (utils.matchContentType(contentType, `application/json`)) {
-                res.tsoaErrorResponsePayload = httpRes?.data;
+              res.tsoaErrorResponsePayload = plainToInstance(
+                shared.TsoaErrorResponsePayload,
+                httpRes?.data as shared.TsoaErrorResponsePayload,
+                { excludeExtraneousValues: true }
+              );
             }
             break;
           case httpRes?.status == 403:
             if (utils.matchContentType(contentType, `application/json`)) {
-                res.tsoaErrorResponsePayload = httpRes?.data;
+              res.tsoaErrorResponsePayload = plainToInstance(
+                shared.TsoaErrorResponsePayload,
+                httpRes?.data as shared.TsoaErrorResponsePayload,
+                { excludeExtraneousValues: true }
+              );
             }
             break;
           case httpRes?.status == 422:
             if (utils.matchContentType(contentType, `application/json`)) {
-                res.runProject422ApplicationJSONAnyOf = httpRes?.data;
+              res.runProject422ApplicationJSONAnyOf = plainToInstance(
+                ,
+                httpRes?.data as ,
+                { excludeExtraneousValues: true }
+              );
             }
             break;
           case httpRes?.status == 503:
             if (utils.matchContentType(contentType, `application/json`)) {
-                res.tsoaErrorResponsePayload = httpRes?.data;
+              res.tsoaErrorResponsePayload = plainToInstance(
+                shared.TsoaErrorResponsePayload,
+                httpRes?.data as shared.TsoaErrorResponsePayload,
+                { excludeExtraneousValues: true }
+              );
             }
             break;
         }

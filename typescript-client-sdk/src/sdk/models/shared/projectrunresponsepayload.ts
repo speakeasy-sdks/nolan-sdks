@@ -1,4 +1,5 @@
 import { SpeakeasyBase, SpeakeasyMetadata } from "../../../internal/utils";
+import { Expose } from "class-transformer";
 
 
 // ProjectRunResponsePayload
@@ -6,21 +7,27 @@ import { SpeakeasyBase, SpeakeasyMetadata } from "../../../internal/utils";
  * Response format returned by the runProject endpoint
 **/
 export class ProjectRunResponsePayload extends SpeakeasyBase {
-  @SpeakeasyMetadata({ data: "json, name=projectId" })
+  @SpeakeasyMetadata()
+  @Expose({ name: "projectId" })
   projectId: string;
 
-  @SpeakeasyMetadata({ data: "json, name=projectVersion" })
+  @SpeakeasyMetadata()
+  @Expose({ name: "projectVersion" })
   projectVersion: number;
 
-  @SpeakeasyMetadata({ data: "json, name=runId" })
+  @SpeakeasyMetadata()
+  @Expose({ name: "runId" })
   runId: string;
 
-  @SpeakeasyMetadata({ data: "json, name=runStatusUrl" })
+  @SpeakeasyMetadata()
+  @Expose({ name: "runStatusUrl" })
   runStatusUrl: string;
 
-  @SpeakeasyMetadata({ data: "json, name=runUrl" })
+  @SpeakeasyMetadata()
+  @Expose({ name: "runUrl" })
   runUrl: string;
 
-  @SpeakeasyMetadata({ data: "json, name=traceId" })
+  @SpeakeasyMetadata()
+  @Expose({ name: "traceId" })
   traceId: string;
 }

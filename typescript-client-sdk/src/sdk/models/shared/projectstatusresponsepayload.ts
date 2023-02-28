@@ -1,5 +1,6 @@
 import { SpeakeasyBase, SpeakeasyMetadata } from "../../../internal/utils";
 import { ProjectRunStatusEnum } from "./projectrunstatusenum";
+import { Expose, Transform } from "class-transformer";
 
 
 // ProjectStatusResponsePayload
@@ -7,30 +8,41 @@ import { ProjectRunStatusEnum } from "./projectrunstatusenum";
  * Response format returned by the getRunStatus endpoint
 **/
 export class ProjectStatusResponsePayload extends SpeakeasyBase {
-  @SpeakeasyMetadata({ data: "json, name=elapsedTime" })
+  @SpeakeasyMetadata()
+  @Expose({ name: "elapsedTime" })
   elapsedTime: number;
 
-  @SpeakeasyMetadata({ data: "json, name=endTime" })
+  @SpeakeasyMetadata()
+  @Expose({ name: "endTime" })
+  @Transform(({ value }) => new Date(value), { toClassOnly: true })
   endTime: Date;
 
-  @SpeakeasyMetadata({ data: "json, name=projectId" })
+  @SpeakeasyMetadata()
+  @Expose({ name: "projectId" })
   projectId: string;
 
-  @SpeakeasyMetadata({ data: "json, name=projectVersion" })
+  @SpeakeasyMetadata()
+  @Expose({ name: "projectVersion" })
   projectVersion: number;
 
-  @SpeakeasyMetadata({ data: "json, name=runId" })
+  @SpeakeasyMetadata()
+  @Expose({ name: "runId" })
   runId: string;
 
-  @SpeakeasyMetadata({ data: "json, name=runUrl" })
+  @SpeakeasyMetadata()
+  @Expose({ name: "runUrl" })
   runUrl: string;
 
-  @SpeakeasyMetadata({ data: "json, name=startTime" })
+  @SpeakeasyMetadata()
+  @Expose({ name: "startTime" })
+  @Transform(({ value }) => new Date(value), { toClassOnly: true })
   startTime: Date;
 
-  @SpeakeasyMetadata({ data: "json, name=status" })
+  @SpeakeasyMetadata()
+  @Expose({ name: "status" })
   status: ProjectRunStatusEnum;
 
-  @SpeakeasyMetadata({ data: "json, name=traceId" })
+  @SpeakeasyMetadata()
+  @Expose({ name: "traceId" })
   traceId: string;
 }

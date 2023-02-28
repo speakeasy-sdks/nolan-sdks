@@ -1,4 +1,5 @@
 import { SpeakeasyBase, SpeakeasyMetadata } from "../../../internal/utils";
+import { Expose } from "class-transformer";
 
 
 // RunProjectRequestBody
@@ -6,12 +7,15 @@ import { SpeakeasyBase, SpeakeasyMetadata } from "../../../internal/utils";
  * Request body format for triggering a project run
 **/
 export class RunProjectRequestBody extends SpeakeasyBase {
-  @SpeakeasyMetadata({ data: "json, name=dryRun" })
+  @SpeakeasyMetadata()
+  @Expose({ name: "dryRun" })
   dryRun?: boolean;
 
-  @SpeakeasyMetadata({ data: "json, name=inputParams" })
+  @SpeakeasyMetadata()
+  @Expose({ name: "inputParams" })
   inputParams?: Record<string, any>;
 
-  @SpeakeasyMetadata({ data: "json, name=updateCache" })
+  @SpeakeasyMetadata()
+  @Expose({ name: "updateCache" })
   updateCache?: boolean;
 }

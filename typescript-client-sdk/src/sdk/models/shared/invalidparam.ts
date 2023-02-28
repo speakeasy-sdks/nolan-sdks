@@ -1,4 +1,5 @@
 import { SpeakeasyBase, SpeakeasyMetadata } from "../../../internal/utils";
+import { Expose } from "class-transformer";
 
 
 // InvalidParam
@@ -6,15 +7,19 @@ import { SpeakeasyBase, SpeakeasyMetadata } from "../../../internal/utils";
  * Information about an input parameter pass to the API call that could not be parsed.
 **/
 export class InvalidParam extends SpeakeasyBase {
-  @SpeakeasyMetadata({ data: "json, name=dataType" })
+  @SpeakeasyMetadata()
+  @Expose({ name: "dataType" })
   dataType: string;
 
-  @SpeakeasyMetadata({ data: "json, name=inputCellType" })
+  @SpeakeasyMetadata()
+  @Expose({ name: "inputCellType" })
   inputCellType: string;
 
-  @SpeakeasyMetadata({ data: "json, name=paramName" })
+  @SpeakeasyMetadata()
+  @Expose({ name: "paramName" })
   paramName: string;
 
-  @SpeakeasyMetadata({ data: "json, name=paramValue" })
+  @SpeakeasyMetadata()
+  @Expose({ name: "paramValue" })
   paramValue: string;
 }
