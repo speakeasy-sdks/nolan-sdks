@@ -1,23 +1,24 @@
 name: Generate
-
-on:
-  workflow_dispatch: {} # Allows manual triggering of the workflow to generate SDK
-  schedule:
-    - cron: 0 0 * * * # Runs every day at midnight
-
+"on":
+  workflow_dispatch:
+    inputs:
+      force:
+        description: ""
+        type: ""
+        default: false
 jobs:
   generate:
-    uses: speakeasy-api/sdk-generation-action/.github/workflows/sdk-generation.yaml@v7 # Import the sdk generation workflow which will handle the generation of the SDKs and publishing to the package managers
+    uses: speakeasy-api/sdk-generation-action/.github/workflows/sdk-generation.yaml@v7
     with:
-      speakeasy_version: latest
-      openapi_doc_location: https://prod.speakeasyapi.dev/v1/apis/Hex/version/1.0.0/schema/download
-      openapi_doc_auth_header: x-api-key
       languages: |-
         - python: python-client-sdk
         - go: go-client-sdk
         - typescript: typescript-client-sdk
         - java: java-client-sdk
+      openapi_doc_auth_header: x-api-key
+      openapi_doc_location: https://prod.speakeasyapi.dev/v1/apis/Hex/version/1.0.0/schema/download
+      speakeasy_version: latest
     secrets:
-      speakeasy_api_key: ${{ secrets.SPEAKEASY_API_KEY }}
       github_access_token: ${{ secrets.GITHUB_TOKEN }}
       openapi_doc_auth_token: ${{ secrets.SPEAKEASY_API_KEY }}
+      speakeasy_api_key: ${{ secrets.SPEAKEASY_API_KEY }}
